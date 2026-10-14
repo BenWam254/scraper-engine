@@ -1,0 +1,30 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: scraper_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  api:
+    build: .
+    container_name: scraper_api
+    ports:
+      - "8001:8001"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TRACKER_API_URL=http://host.docker.internal:8000/api/v1/metrics
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    container_name: scraper_worker
+    command: uv run arq src.queue.WorkerSettings
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TRACKER_API_URL=http://host.docker.internal:8000/api/v1/metrics
+    depends_on:
+      - redis
