@@ -6,25 +6,17 @@ services:
       - "6379:6379"
     restart: always
 
-  api:
-    build: .
-    container_name: scraper_api
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
+    container_name: scraper_redpanda
+    command:
+      - redpanda start
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --smp 1
+      - --memory 1G
+      - --mode dev-container
+      - --default-log-level=info
     ports:
-      - "8001:8001"
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - TRACKER_API_URL=http://host.docker.internal:8000/api/v1/metrics
-    depends_on:
-      - redis
-
-  worker:
-    build: .
-    container_name: scraper_worker
-    command: uv run arq src.queue.WorkerSettings
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - TRACKER_API_URL=http://host.docker.internal:8000/api/v1/metrics
-    depends_on:
-      - redis
+      - "19092:19092"
+      - "9644:9644"
