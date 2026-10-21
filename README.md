@@ -69,6 +69,7 @@ Designed as a decoupled processing layer in a distributed data platform, `scrape
 
 ## Repository Structure
 
+```text
 scraper-engine/
 ├── .github/
 │   └── workflows/
@@ -88,7 +89,7 @@ scraper-engine/
 ├── Dockerfile                 # Multi-stage container definition
 ├── pyproject.toml             # Project setup and dependency specs
 └── uv.lock                    # Deterministic lockfile
-
+```
 
 ---
 
