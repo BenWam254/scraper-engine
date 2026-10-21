@@ -101,46 +101,44 @@ scraper-engine/
 * [`uv` package manager](https://github.com/astral-sh/uv)
 * [Docker Desktop](https://www.docker.com/)
 
-
 ### 1. Clone & Setup Environment
 
 ```bash
-git clone [https://github.com/BenWam254/scraper-engine.git](https://github.com/BenWam254/scraper-engine.git)
+git clone https://github.com/BenWam254/scraper-engine.git
 cd scraper-engine
 ```
 
-## Sync dependencies with uv
+# Sync dependencies with uv
 
 ```bash
 uv sync
-```
 
-## Install Playwright Chromium dependencies
+# Install Playwright Chromium dependencies
 
 ```bash
 uv run crawl4ai-setup
 ```
 
-## Start Infrastructure Services
+# Start Infrastructure Services
 Start the local Redis instance using Docker Compose:
 
 ```bash
 docker compose up -d redis
 ```
 
-## Run Application Services
+# Run Application Services
 Open two separate terminal windows:
 
-Terminal 1 — ARQ Worker Node:
+#### Terminal 1 - ARQ Worker Node:
 
 ```bash
 uv run arq src.queue.WorkerSettings
 ```
 
-### Terminal 2 — FastAPI Master API:
+#### Terminal 2 — FastAPI Master API:
 
 ```bash
-uv run uvicorn src.api:app --reload --port 8001
+uv run uvicorn src.api.app --reload --port 8001
 ```
 
 ### API Reference
@@ -151,11 +149,11 @@ Method: POST
 
 Headers: Content-Type: application/json
 
-### Request Payload
+#### Request Payload
 
 ```bash
 {
-  "url": "[https://news.ycombinator.com](https://news.ycombinator.com)",
+  "url:" "https://news.ycombinator.com",
   "scraper_name": "hn_bot"
 }
 ```
@@ -166,30 +164,21 @@ Headers: Content-Type: application/json
 {
   "status": "queued",
   "job_id": "a51e606b516c4700bbc89b729a51735e",
-  "url": "[https://news.ycombinator.com/](https://news.ycombinator.com/)",
+  "url": "https://news.ycombinator.com/"
   "scraper_name": "hn_bot"
 }
 ```
 
-### Docker Compose Deployment
-To build and run the full stack (Redis, API Master, and Worker Nodes) inside isolated containers:
+## Testing and CI 
 
-```bash
-docker compose up --build -d
-```
-
-The API will be available at http://localhost:8001, with interactive OpenAPI documentation at http://localhost:8001/docs.
-
-### Testing & CI
-The repository maintains unit and integration coverage using pytest.
-
-Run the test suite locally:
+### Local Test Suite
+The repository maintains unit and integration coverage using `pytest`. Run the test suite locally:
 
 ```bash
 uv run pytest -v
 ```
 
-### CI Pipeline
+## CI Pipeline
 Every push or pull request to main triggers a GitHub Actions workflow that:
 
 Provisions a Redis 7 service container.
@@ -200,5 +189,5 @@ Installs Playwright Chromium browser binaries inside the runner.
 
 Executes the pytest test suite.
 
-### License
+## License
 This project is open-source software licensed under the MIT License.
