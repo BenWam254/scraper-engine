@@ -107,26 +107,26 @@ git clone [https://github.com/BenWam254/scraper-engine.git](https://github.com/B
 cd scraper-engine
 ```
 
-# Sync dependencies with uv
+## Sync dependencies with uv
 
 ```bash
 uv sync
 ```
 
-# Install Playwright Chromium dependencies
+## Install Playwright Chromium dependencies
 
 ```bash
 uv run crawl4ai-setup
 ```
 
-# Start Infrastructure Services
+## Start Infrastructure Services
 Start the local Redis instance using Docker Compose:
 
 ```bash
 docker compose up -d redis
 ```
 
-# Run Application Services
+## Run Application Services
 Open two separate terminal windows:
 
 Terminal 1 — ARQ Worker Node:
@@ -135,7 +135,7 @@ Terminal 1 — ARQ Worker Node:
 uv run arq src.queue.WorkerSettings
 ```
 
-#### Terminal 2 — FastAPI Master API:
+### Terminal 2 — FastAPI Master API:
 
 ```bash
 uv run uvicorn src.api:app --reload --port 8001
@@ -149,7 +149,7 @@ Method: POST
 
 Headers: Content-Type: application/json
 
-#### Request Payload
+### Request Payload
 
 ```bash
 {
@@ -158,7 +158,7 @@ Headers: Content-Type: application/json
 }
 ```
 
-#### Success Response (200 OK)
+### Success Response (200 OK)
 
 ```bash
 {
@@ -187,7 +187,7 @@ Run the test suite locally:
 uv run pytest -v
 ```
 
-## CI Pipeline
+### CI Pipeline
 Every push or pull request to main triggers a GitHub Actions workflow that:
 
 Provisions a Redis 7 service container.
@@ -198,5 +198,5 @@ Installs Playwright Chromium browser binaries inside the runner.
 
 Executes the pytest test suite.
 
-## License
+### License
 This project is open-source software licensed under the MIT License.
